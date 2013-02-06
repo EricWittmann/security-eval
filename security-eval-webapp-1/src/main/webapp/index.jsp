@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <%@page import="org.overlord.security.eval.webapp1.services.JaxrsService"%>
 <%
-  JaxrsService svc = new JaxrsService();
+  JaxrsService svc = new JaxrsService(request);
 %>
 <html>
 <head>

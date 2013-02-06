@@ -21,7 +21,7 @@
       <url-pattern>/*</url-pattern>
     </web-resource-collection>
     <auth-constraint>
-      <role-name>user</role-name>
+      <role-name>sramp_user</role-name>
     </auth-constraint>
   </security-constraint>
 
@@ -40,7 +40,7 @@
     <description>
             The role that is required to log in to the Application (1)
         </description>
-    <role-name>user</role-name>
+    <role-name>sramp_user</role-name>
   </security-role>
 
 </web-app>

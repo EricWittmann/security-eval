@@ -1,0 +1,9 @@
+connect
+/subsystem=security/security-domain=security-eval-idp:add(cache-type=default)
+/subsystem=security/security-domain=security-eval-idp/authentication=classic:add(login-modules=[{"code"=>"UsersRoles","flag"=>"required","module-options"=>[("usersProperties"=>"${jboss.server.config.dir}/security-eval-idp-users.properties"),("rolesProperties"=>"${jboss.server.config.dir}/security-eval-idp-roles.properties")]}])
+/subsystem=security/security-domain=security-eval-sp:add(cache-type=default)
+/subsystem=security/security-domain=security-eval-sp/authentication=classic:add(login-modules=[{"code"=>"org.picketlink.identity.federation.bindings.jboss.auth.SAML2LoginModule","flag"=>"required"}])
+/subsystem=security/security-domain=security-eval-jaxrs:add(cache-type=default)
+/subsystem=security/security-domain=security-eval-jaxrs/authentication=classic:add(login-modules=[{"code"=>"org.overlord.security.eval.jaxrs.auth.ImpersonationUsersRolesLoginModule","flag"=>"required","module-options"=>[("usersProperties"=>"${jboss.server.config.dir}/security-eval-idp-users.properties"),("rolesProperties"=>"${jboss.server.config.dir}/security-eval-idp-roles.properties"),("impersonationPrincipal"=>"impersonator")]}])
+:reload
+:reload

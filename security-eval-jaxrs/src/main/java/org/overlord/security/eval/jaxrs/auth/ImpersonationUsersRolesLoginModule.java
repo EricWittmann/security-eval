@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.overlord.security.eval.auth;
+package org.overlord.security.eval.jaxrs.auth;
 
 import java.security.Principal;
 import java.security.acl.Group;

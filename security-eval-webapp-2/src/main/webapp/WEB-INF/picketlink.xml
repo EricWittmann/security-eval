@@ -1,7 +1,7 @@
 <PicketLink xmlns="urn:picketlink:identity-federation:config:2.1">
 	<PicketLinkSP xmlns="urn:picketlink:identity-federation:config:2.1"
 		ServerEnvironment="tomcat" BindingType="REDIRECT" RelayState="someURL">
-		<IdentityURL>${idp.url::http://localhost:8080/idp/}</IdentityURL>
+		<IdentityURL>${security-eval-idp.url::http://localhost:8080/idp/}</IdentityURL>
 		<ServiceURL>${security-eval-webapp-2.url::http://localhost:8080/security-eval-webapp-2/}</ServiceURL>
 	</PicketLinkSP>
 	<Handlers xmlns="urn:picketlink:identity-federation:handler:config:2.1">

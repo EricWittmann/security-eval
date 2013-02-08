@@ -27,7 +27,6 @@ import org.jboss.resteasy.client.ClientResponse;
 import org.jboss.resteasy.client.core.executors.ApacheHttpClient4Executor;
 
 /**
- *
  * @author eric.wittmann@redhat.com
  */
 public class JaxrsService {

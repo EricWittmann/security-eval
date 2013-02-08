@@ -10,7 +10,7 @@
 <body>
 <h3>Welcome to Web Application 1, <%= request.getRemoteUser() %>!</h3>
 <p>
-  The Greeting service says:  <%= svc.doGreeting() %>
+  The secure JAX-RS Greeting service says:  <%= svc.doGreeting() %>
 </p>
 </body>
 </html>

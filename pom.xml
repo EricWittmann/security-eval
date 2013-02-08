@@ -15,6 +15,7 @@
     <module>security-eval-webapp-1</module>
     <module>security-eval-webapp-2</module>
     <module>security-eval-jaxrs</module>
+    <module>security-eval-idp</module>
   </modules>
   <repositories>
     <repository>

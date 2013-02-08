@@ -1,0 +1,7 @@
+<jboss-web>
+  <security-domain>security-eval-idp</security-domain>
+  <context-root>security-eval-idp</context-root>
+  <valve>
+     <class-name>org.picketlink.identity.federation.bindings.tomcat.idp.IDPWebBrowserSSOValve</class-name>
+   </valve>
+</jboss-web>

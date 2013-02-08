@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.overlord.security.eval.server;
+package org.overlord.security.eval.jaxrs.server;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.GET;

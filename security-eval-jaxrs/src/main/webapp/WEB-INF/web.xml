@@ -7,7 +7,7 @@
     <servlet-class>org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher</servlet-class>
     <init-param>
       <param-name>javax.ws.rs.Application</param-name>
-      <param-value>org.overlord.security.eval.server.Application</param-value>
+      <param-value>org.overlord.security.eval.jaxrs.server.Application</param-value>
     </init-param>
   </servlet>
   <servlet-mapping>
@@ -21,7 +21,7 @@
       <url-pattern>/*</url-pattern>
     </web-resource-collection>
     <auth-constraint>
-      <role-name>sramp_user</role-name>
+      <role-name>user</role-name>
     </auth-constraint>
   </security-constraint>
 
@@ -31,7 +31,7 @@
   </login-config>
 
   <security-role>
-    <role-name>sramp_user</role-name>
+    <role-name>user</role-name>
   </security-role>
 
 </web-app>

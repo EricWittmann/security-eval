@@ -119,7 +119,7 @@
       <plugin>
         <artifactId>maven-war-plugin</artifactId>
         <configuration>
-          <warName>${artifactId}</warName>
+          <warName>${project.artifactId}</warName>
           <archive>
             <manifest>
               <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
@@ -127,23 +127,6 @@
             </manifest>
           </archive>
         </configuration>
-      </plugin>
-      <plugin>
-        <artifactId>maven-antrun-plugin</artifactId>
-        <executions>
-          <execution>
-            <phase>install</phase>
-            <configuration>
-              <tasks>
-                <copy file="target/security-eval-jaxrs.war" todir="C:/Users/Eric/tmp/jboss-as-7.1.1.Final/standalone/deployments"
-                  overwrite="true" />
-              </tasks>
-            </configuration>
-            <goals>
-              <goal>run</goal>
-            </goals>
-          </execution>
-        </executions>
       </plugin>
     </plugins>
   </build>

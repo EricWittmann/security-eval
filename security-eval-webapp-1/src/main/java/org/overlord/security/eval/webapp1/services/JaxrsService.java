@@ -32,8 +32,8 @@ import org.jboss.resteasy.client.core.executors.ApacheHttpClient4Executor;
 public class JaxrsService {
 
     private static final String ENDPOINT = "http://localhost:8080/security-eval-jaxrs/greeting";
-    private static final String USER = "sramp";
-    private static final String PASS = "sramp";
+    private static final String USER = "impersonator";
+    private static final String PASS = "secure";
 
     private HttpServletRequest context;
 

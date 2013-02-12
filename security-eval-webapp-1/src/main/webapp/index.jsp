@@ -12,5 +12,8 @@
 <p>
   The secure JAX-RS Greeting service says:  <%= svc.doGreeting() %>
 </p>
+<p>
+  Want to test Global Logout?  <a href="?GLO=true">Click Here!</a>
+</p>
 </body>
 </html>

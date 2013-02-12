@@ -1,6 +1,6 @@
 <PicketLink xmlns="urn:picketlink:identity-federation:config:2.1">
 	<PicketLinkIDP xmlns="urn:picketlink:identity-federation:config:2.1">
-		<IdentityURL>${security-eval-idp.url::http://localhost:8080/security-eval-idp/}</IdentityURL>
+		<IdentityURL>${security-eval-idp.url::/security-eval-idp/}</IdentityURL>
 		<Trust>
             <Domains>localhost,jboss.com,jboss.org,amazonaws.com</Domains>
 		</Trust>

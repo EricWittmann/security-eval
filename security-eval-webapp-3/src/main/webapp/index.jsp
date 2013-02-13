@@ -27,9 +27,8 @@
   to execute REST calls on behalf of the currently logged-in user!
 </p>
 <p>
-  Note: the above is done by using a special "impersonator" user 
-  credential.  This user has the power to pretend to be any other 
-  user.
+  Note: this is similar to security-eval-webapp-1 except that this version
+  does *not* use impersonation.
 </p>
 <br/>
 <br/>

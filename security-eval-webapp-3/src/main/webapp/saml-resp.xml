@@ -1,0 +1,35 @@
+<samlp:Response xmlns:samlp="urn:oasis:names:tc:SAML:2.0:protocol" xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion"
+  Destination="/security-eval-webapp-2/" ID="ID_e91a8d3d-e616-4334-8365-43192a2d1eba" InResponseTo="ID_3f10e764-5ca1-45d7-92c7-6166a7822906"
+  IssueInstant="2013-02-12T19:00:22.080Z" Version="2.0">
+  <saml:Issuer>/security-eval-idp/</saml:Issuer>
+  <samlp:Status>
+    <samlp:StatusCode Value="urn:oasis:names:tc:SAML:2.0:status:Success" />
+  </samlp:Status>
+  <saml:Assertion xmlns="urn:oasis:names:tc:SAML:2.0:assertion" ID="ID_624bab6a-2622-4675-9fb7-8834699a6ec1"
+    IssueInstant="2013-02-12T19:00:22.074Z" Version="2.0">
+    <saml:Issuer>/security-eval-idp/</saml:Issuer>
+    <saml:Subject>
+      <saml:NameID Format="urn:oasis:names:tc:SAML:2.0:nameid-format:persistent">eric</saml:NameID>
+      <saml:SubjectConfirmation Method="urn:oasis:names:tc:SAML:2.0:cm:bearer">
+        <saml:SubjectConfirmationData InResponseTo="ID_3f10e764-5ca1-45d7-92c7-6166a7822906"
+          NotOnOrAfter="2013-02-12T19:00:27.074Z" Recipient="/security-eval-webapp-2/" />
+      </saml:SubjectConfirmation>
+    </saml:Subject>
+    <saml:Conditions NotBefore="2013-02-12T19:00:22.074Z" NotOnOrAfter="2013-02-12T19:00:27.074Z">
+      <saml:AudienceRestriction>
+        <saml:Audience>/security-eval-webapp-2/</saml:Audience>
+      </saml:AudienceRestriction>
+    </saml:Conditions>
+    <saml:AuthnStatement AuthnInstant="2013-02-12T19:00:22.082Z">
+      <saml:AuthnContext>
+        <saml:AuthnContextClassRef>urn:oasis:names:tc:SAML:2.0:ac:classes:Password</saml:AuthnContextClassRef>
+      </saml:AuthnContext>
+    </saml:AuthnStatement>
+    <saml:AttributeStatement>
+      <saml:Attribute Name="Role">
+        <saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:type="xs:string">user</saml:AttributeValue>
+      </saml:Attribute>
+    </saml:AttributeStatement>
+  </saml:Assertion>
+</samlp:Response>

@@ -26,6 +26,7 @@
         <extension module="org.jboss.as.web"/>
         <extension module="org.jboss.as.webservices"/>
         <extension module="org.jboss.as.weld"/>
+        <extension module="org.picketlink"/>
     </extensions>
 
     <management>
@@ -256,9 +257,19 @@
                         <login-module code="org.picketlink.identity.federation.bindings.jboss.auth.SAML2LoginModule" flag="required"/>
                     </authentication>
                 </security-domain>
+                <security-domain name="security-eval-sp-3" cache-type="default">
+                    <authentication>
+                        <login-module code="org.picketlink.identity.federation.bindings.jboss.auth.SAML2LoginModule" flag="requisite"/>
+                        <login-module code="org.overlord.security.eval.webapp3.auth.OverlordAuthTokenGeneratorLoginModule" flag="required"/>
+                    </authentication>
+                </security-domain>
                 <security-domain name="security-eval-jaxrs" cache-type="default">
                     <authentication>
-                        <login-module code="org.overlord.security.eval.jaxrs.auth.ImpersonationUsersRolesLoginModule" flag="required">
+                        <login-module code="org.overlord.security.eval.jaxrs.auth.OverlordAuthTokenLoginModule" flag="sufficient">
+                            <module-option name="usersProperties" value="${jboss.server.config.dir}/security-eval-idp-users.properties"/>
+                            <module-option name="rolesProperties" value="${jboss.server.config.dir}/security-eval-idp-roles.properties"/>
+                        </login-module>
+                        <login-module code="org.overlord.security.eval.jaxrs.auth.ImpersonationUsersRolesLoginModule" flag="sufficient">
                             <module-option name="usersProperties" value="${jboss.server.config.dir}/security-eval-idp-users.properties"/>
                             <module-option name="rolesProperties" value="${jboss.server.config.dir}/security-eval-idp-roles.properties"/>
                             <module-option name="impersonationPrincipal" value="impersonator"/>
@@ -324,4 +335,5 @@
             <remote-destination host="localhost" port="25"/>
         </outbound-socket-binding>
     </socket-binding-group>
+
 </server>

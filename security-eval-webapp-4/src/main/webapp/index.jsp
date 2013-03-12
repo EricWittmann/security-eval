@@ -1,14 +1,14 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<%@page import="org.overlord.security.eval.webapp3.services.JaxrsService"%>
+<%@page import="org.overlord.security.eval.webapp4.services.JaxrsService"%>
 <%
   JaxrsService svc = new JaxrsService(request);
 %>
 <html>
 <head>
-<title>Web Application 3</title>
+<title>Web Application 4</title>
 </head>
 <body>
-<h3>Welcome to Web Application 3, <%= request.getRemoteUser() %>!</h3>
+<h3>Welcome to Web Application 4, <%= request.getRemoteUser() %>!</h3>
 <p>
   The secure JAX-RS Greeting service says:  "<%= svc.doGreeting() %>"
 </p>
@@ -28,8 +28,9 @@
 </p>
 <p>
   Note: this is similar to security-eval-webapp-1 except that this version
-  does *not* use impersonation.  Instead it uses a shared token as the
-  BASIC auth password.
+  does *not* use impersonation.  Instead it uses a SAML Assertion of
+  type Issuer.  The JAX-RS service is configured to trust calls with that
+  particular SAML Assertion included.
 </p>
 <br/>
 <br/>

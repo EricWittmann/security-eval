@@ -20,6 +20,7 @@
     <module>security-eval-idp</module>
     <module>security-eval-installer</module>
     <module>security-eval-webapp-3</module>
+    <module>security-eval-webapp-4</module>
   </modules>
 
   <repositories>

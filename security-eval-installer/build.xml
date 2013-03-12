@@ -71,6 +71,8 @@
           todir="${installdir}/jboss-as-7.1.1.Final/standalone/deployments" />
     <copy file="${basedir}/../security-eval-webapp-3/target/security-eval-webapp-3.war" 
           todir="${installdir}/jboss-as-7.1.1.Final/standalone/deployments" />
+    <copy file="${basedir}/../security-eval-webapp-4/target/security-eval-webapp-4.war" 
+          todir="${installdir}/jboss-as-7.1.1.Final/standalone/deployments" />
 
   </target>
 

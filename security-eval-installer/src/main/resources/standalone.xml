@@ -263,6 +263,11 @@
                         <login-module code="org.overlord.security.eval.webapp3.auth.OverlordAuthTokenGeneratorLoginModule" flag="required"/>
                     </authentication>
                 </security-domain>
+                <security-domain name="security-eval-sp-4" cache-type="default">
+                    <authentication>
+                        <login-module code="org.picketlink.identity.federation.bindings.jboss.auth.SAML2LoginModule" flag="requisite"/>
+                    </authentication>
+                </security-domain>
                 <security-domain name="security-eval-jaxrs" cache-type="default">
                     <authentication>
                         <login-module code="org.overlord.security.eval.jaxrs.auth.OverlordAuthTokenLoginModule" flag="sufficient">

@@ -2,6 +2,8 @@
   <deployment>
     <dependencies>
       <module name="org.picketbox" />
+      <module name="org.picketlink" />
+      <module name="org.jboss.as.web" />
     </dependencies>
   </deployment>
 </jboss-deployment-structure>

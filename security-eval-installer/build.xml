@@ -34,7 +34,9 @@
     <echo>Configuring JBoss JAAS security</echo>
     <echo>-------------------------------</echo>
     <copy file="${basedir}/src/main/resources/standalone.xml" 
-          todir="${installdir}/jboss-as-7.1.1.Final/standalone/configuration" />
+          todir="${installdir}/jboss-as-7.1.1.Final/standalone/configuration" overwrite="true" />
+    <copy file="${basedir}/src/main/resources/standalone.conf" 
+          todir="${installdir}/jboss-as-7.1.1.Final/bin" overwrite="true" />
 
     <echo>-----------------------------------------------------</echo>
     <echo>Installing PicketLink Modules in JBoss AS 7.1.1.Final</echo>

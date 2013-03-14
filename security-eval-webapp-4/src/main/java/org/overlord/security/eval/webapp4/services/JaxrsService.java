@@ -18,9 +18,11 @@ package org.overlord.security.eval.webapp4.services;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.security.Principal;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -41,11 +43,15 @@ import org.jboss.resteasy.client.ClientExecutor;
 import org.jboss.resteasy.client.ClientRequest;
 import org.jboss.resteasy.client.ClientResponse;
 import org.jboss.resteasy.client.core.executors.ApacheHttpClient4Executor;
+import org.jboss.security.SecurityContextAssociation;
 import org.picketlink.identity.federation.core.exceptions.ProcessingException;
 import org.picketlink.identity.federation.core.saml.v2.factories.SAMLAssertionFactory;
 import org.picketlink.identity.federation.core.saml.v2.writers.SAMLAssertionWriter;
 import org.picketlink.identity.federation.core.wstrust.plugins.saml.SAMLUtil;
 import org.picketlink.identity.federation.saml.v2.assertion.AssertionType;
+import org.picketlink.identity.federation.saml.v2.assertion.AttributeStatementType;
+import org.picketlink.identity.federation.saml.v2.assertion.AttributeStatementType.ASTChoiceType;
+import org.picketlink.identity.federation.saml.v2.assertion.AttributeType;
 import org.picketlink.identity.federation.saml.v2.assertion.ConditionAbstractType;
 import org.picketlink.identity.federation.saml.v2.assertion.NameIDType;
 import org.picketlink.identity.federation.saml.v2.assertion.StatementAbstractType;
@@ -91,15 +97,14 @@ public class JaxrsService {
      */
     private ClientExecutor getSamlAssertionExecutor() {
         try {
-            final String currentUser = this.context.getRemoteUser();
-            final String b64Assertion = createB64Assertion(currentUser);
+            final String b64Assertion = createB64Assertion(this.context.getUserPrincipal());
 
             DefaultHttpClient httpClient = new DefaultHttpClient();
             httpClient.addRequestInterceptor(new HttpRequestInterceptor() {
                 @Override
                 public void process(HttpRequest request, HttpContext context) throws HttpException, IOException {
                     System.out.println("Setting HTTP Authorization to: " + b64Assertion);
-                    request.setHeader("Authorization", b64Assertion);
+                    request.setHeader("Authorization", "Basic " + b64Assertion);
                 }
             });
             ClientExecutor clientExecutor = new ApacheHttpClient4Executor(httpClient);
@@ -111,7 +116,7 @@ public class JaxrsService {
     }
 
     /**
-     * @param currentUser
+     * @param principal
      * @return
      * @throws Exception
      * @throws FactoryConfigurationError
@@ -119,29 +124,32 @@ public class JaxrsService {
      * @throws ProcessingException
      * @throws UnsupportedEncodingException
      */
-    protected static String createB64Assertion(final String currentUser) throws Exception,
+    protected static String createB64Assertion(final Principal principal) throws Exception,
             FactoryConfigurationError, XMLStreamException, ProcessingException, UnsupportedEncodingException {
         DatatypeFactory dtFactory = getDatatypeFactory();
         GregorianCalendar now = new GregorianCalendar();
         GregorianCalendar then = new GregorianCalendar();
         then.add(Calendar.SECOND, 10);
-        NameIDType subjectNameId = SAMLAssertionFactory.createNameID("urn:oasis:names:tc:SAML:2.0:nameid-format:persistent", null, currentUser);
-        ConditionAbstractType restriction = SAMLAssertionFactory.createAudienceRestriction("/security-eval-jaxrs/");
-        SubjectConfirmationType subjectConfirmation = SAMLAssertionFactory.createSubjectConfirmation(null, SAMLUtil.SAML2_SENDER_VOUCHES_URI, null);
+
+        NameIDType subjectNameId = SAMLAssertionFactory.createNameID("urn:oasis:names:tc:SAML:2.0:nameid-format:persistent", null, principal.getName());
+        ConditionAbstractType restriction = SAMLAssertionFactory.createAudienceRestriction("/security-eval-jaxrs");
+        SubjectConfirmationType subjectConfirmation = SAMLAssertionFactory.createSubjectConfirmation(null, SAMLUtil.SAML2_BEARER_URI, null);
         List<StatementAbstractType> statements = null;
         XMLGregorianCalendar xmlNow = dtFactory.newXMLGregorianCalendar(now);
-        XMLGregorianCalendar xmlThen = dtFactory.newXMLGregorianCalendar(now);
+        XMLGregorianCalendar xmlThen = dtFactory.newXMLGregorianCalendar(then);
         AssertionType assertion = SAMLAssertionFactory.createAssertion(
                 UUID.randomUUID().toString(),
-                SAMLAssertionFactory.createNameID(null, null, "/security-eval-webapp-4/"),
-                dtFactory.newXMLGregorianCalendar(now),
+                SAMLAssertionFactory.createNameID(null, null, "/security-eval-webapp-4"),
+                xmlNow,
                 SAMLAssertionFactory.createConditions(xmlNow, xmlThen, restriction),
                 SAMLAssertionFactory.createSubject(subjectNameId, subjectConfirmation),
                 statements);
+        addRoleStatements(assertion, principal);
 
         // Serialize the Assertion
         XMLOutputFactory xmlOutputFactory = XMLOutputFactory.newFactory();
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        baos.write("SAML-BEARER-TOKEN:".getBytes("UTF-8"));
         XMLStreamWriter xmlStreamWriter = xmlOutputFactory.createXMLStreamWriter(baos);
         SAMLAssertionWriter writer = new SAMLAssertionWriter(xmlStreamWriter);
         writer.write(assertion);
@@ -152,19 +160,40 @@ public class JaxrsService {
     }
 
     /**
+     * Adds the roles to the assertion as attribute statements.
+     * @param assertion
+     * @param principal
+     */
+    private static void addRoleStatements(AssertionType assertion, Principal principal) {
+        AttributeType attribute = new AttributeType("Role");
+        ASTChoiceType attributeAST = new ASTChoiceType(attribute);
+        AttributeStatementType roleStatement = new AttributeStatementType();
+        roleStatement.addAttribute(attributeAST);
+
+        Set<Principal> userRoles = SecurityContextAssociation.getSecurityContext().getAuthorizationManager().getUserRoles(principal);
+        if (userRoles != null) {
+            for (Principal role : userRoles) {
+                attribute.addAttributeValue(role.getName());
+            }
+        }
+
+        assertion.addStatement(roleStatement);
+    }
+
+    /**
      * @return
      * @throws Exception
      */
     private static DatatypeFactory getDatatypeFactory() throws Exception {
         return DatatypeFactory.newInstance();
     }
-
-    public static void main(String [] args) throws Exception {
-        DatatypeFactory dtFactory = getDatatypeFactory();
-        System.out.println("DTFactory: " + dtFactory.getClass());
-        XMLGregorianCalendar xmlNow = dtFactory.newXMLGregorianCalendar(new GregorianCalendar());
-        System.out.println(xmlNow.toString());
-        createB64Assertion("eric");
-    }
+//
+//    public static void main(String [] args) throws Exception {
+//        DatatypeFactory dtFactory = getDatatypeFactory();
+//        System.out.println("DTFactory: " + dtFactory.getClass());
+//        XMLGregorianCalendar xmlNow = dtFactory.newXMLGregorianCalendar(new GregorianCalendar());
+//        System.out.println(xmlNow.toString());
+//        createB64Assertion("eric");
+//    }
 
 }

@@ -270,6 +270,9 @@
                 </security-domain>
                 <security-domain name="security-eval-jaxrs" cache-type="default">
                     <authentication>
+                        <login-module code="org.overlord.security.eval.jaxrs.auth.SAMLBearerTokenLoginModule" flag="sufficient">
+                            <module-option name="expectedIssuer" value="/security-eval-webapp-4"/>
+                        </login-module>
                         <login-module code="org.overlord.security.eval.jaxrs.auth.OverlordAuthTokenLoginModule" flag="sufficient">
                             <module-option name="usersProperties" value="${jboss.server.config.dir}/security-eval-idp-users.properties"/>
                             <module-option name="rolesProperties" value="${jboss.server.config.dir}/security-eval-idp-roles.properties"/>
